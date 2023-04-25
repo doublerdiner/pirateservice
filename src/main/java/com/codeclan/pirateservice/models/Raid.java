@@ -1,6 +1,8 @@
 package com.codeclan.pirateservice.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import org.hibernate.annotations.Cascade;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +17,8 @@ public class Raid {
     private String location;
     private int booty;
     @ManyToMany
+    @JsonIgnoreProperties({"raids"})
+    @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
     @JoinTable(
             name = "pirates_raids",
             joinColumns = {
