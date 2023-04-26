@@ -29,4 +29,9 @@ public class ShipController {
         shipRepository.save(ship);
         return new ResponseEntity(ship, HttpStatus.CREATED);
     }
+    @GetMapping(value = "/ships/pirates")
+    public ResponseEntity<List<Ship>> findShipsByPirateFirstName
+            (@RequestParam(name = "named") String name){
+        return new ResponseEntity<>(shipRepository.findShipsByPiratesFirstName(name), HttpStatus.OK);
+    }
 }

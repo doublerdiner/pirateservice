@@ -10,6 +10,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 @SpringBootTest
 class PirateserviceApplicationTests {
 	@Autowired
@@ -56,6 +61,37 @@ class PirateserviceApplicationTests {
 		pirate.addRaidToPirate(raid);
 		pirate.addRaidToPirate(raid2);
 		pirateRepository.save(pirate);
+	}
+	@Test
+	public void canFindPiratesByLastName(){
+		List<Pirate> pirates = pirateRepository.findPiratesByLastName("Silver");
+		assertEquals(1, pirates.size());
+	}
+	@Test
+	public void canFindPiratesOver25(){
+		List<Pirate> pirates = pirateRepository.findPiratesByAgeGreaterThan(25);
+		assertEquals(7, pirates.size());
+	}
+	@Test
+	public void canFindRaidsByLocation(){
+		List<Raid> raids = raidRepository.findRaidsByLocation("Havana");
+		assertEquals(1, raids.size());
+	}
+	@Test
+	public void canFindPiratesForGivenRaid(){
+		List<Pirate> pirates = pirateRepository.findPiratesByRaidsId(1L);
+		assertEquals(1, pirates.size());
+		assertEquals("Jack", pirates.get(0).getFirstName());
+	}
+	@Test
+	public void canFindShipsByPiratesFirstName(){
+		List<Ship> ships = shipRepository.findShipsByPiratesFirstName("Jack");
+		assertEquals(false, ships.isEmpty());
+	}
+	@Test
+	public void canFindRaidsByShipName(){
+		List<Raid> raids = raidRepository.findRaidsByPiratesShipName("The Black Pearl");
+		assertEquals(2, raids.size());
 	}
 
 }
